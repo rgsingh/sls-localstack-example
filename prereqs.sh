@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 
-~/bin/stop-all-containers.sh && ~/bin/rm-all-containers.sh
+docker stop $(docker ps -a -q)
+
+docker rm $(docker ps -a -q)
 
 docker image prune -a
 
