@@ -1,6 +1,19 @@
 version: '3.1'
 
 services:
+  registry:
+    image: registry:2.7.1
+    container_name: registry
+    ports:
+      - "5000:5000"
+  act-ubuntu:
+    container_name: ubuntu-builder
+    platform: linux/amd64
+    build: act-ubuntu-dep/.
+    tty: true
+    restart: on-failure
+    depends_on:
+      - registry
 
   localstack:
     image: localstack/localstack:latest

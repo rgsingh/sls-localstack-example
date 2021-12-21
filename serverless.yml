@@ -1,11 +1,11 @@
-service: serverless-additional-stacks
+service: serverless-localstack
 
 frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: nodejs12.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
 
@@ -20,10 +20,13 @@ custom:
         BucketName: ${self:service}-data
   localstack:
     stages:
-      - local
-      - host: http://localhost
-      - edgePort: 4566
+      - dev
+    host: http://localhost
+    endpointFile: localstack_endpoints.json
+    lambda:
+      # Enable this flag to improve performance
+      mountCode: True
 
 functions:
-  hello:
-    handler: handler.hello
+  greet:
+    handler: greet.handler
