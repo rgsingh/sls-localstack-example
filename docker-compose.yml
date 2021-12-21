@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+
+  localstack:
+    image: localstack/localstack:latest
+    environment:
+      - EDGE_PORT=4566
+      - SERVICES=serverless,sqs
+      - LAMBDA_EXECUTOR=docker
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    ports:
+      - '4566-4583:4566-4583'
+    volumes:
+      - "${TEMPDIR:-/tmp/localstack}:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
