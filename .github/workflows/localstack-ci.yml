@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: '16'
       - name: Install Serverless
-        run: npm install -g serverless@2.18.0-6c67cd7f
+        run: npm install -g serverless
       - name: Deploy AWS Resources via Serverless
         env:
           DEFAULT_REGION: us-east-1
