@@ -31,4 +31,4 @@ custom:
 
 functions:
   greet:
-    handler: greet.handler
+    handler: greeter/handler.greet
