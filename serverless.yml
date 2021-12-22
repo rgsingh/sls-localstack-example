@@ -4,7 +4,7 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: python3.10
+  runtime: python3.9
   stage: ${opt:stage, 'dev'}
   region: us-east-1
   lambdaHashingVersion: 20201221
@@ -24,7 +24,16 @@ custom:
     stages:
       - dev
     host: http://localhost
-    endpointFile: localstack_endpoints.json
+    endpoints:
+      S3: http://localhost:4572
+      DynamoDB: http://localhost:4570
+      CloudFormation: http://localhost:4581
+      Elasticsearch: http://localhost:4571
+      ES: http://localhost:4578
+      SNS: http://localhost:4575
+      SQS: http://localhost:4576
+      Lambda: http://localhost:4574
+      Kinesis: http://localhost:4568
     lambda:
       # Enable this flag to improve performance
       mountCode: True
