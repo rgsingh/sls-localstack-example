@@ -3,7 +3,7 @@
 ## Serverless LocalStack CI with GitHub Actions
 
 ## 1) Pre-requisites for [Act](https://github.com/nektos/act)
-###### (See [prereqs.sh](./prereqs.sh) to manage the below steps in one script)
+###### (WARNING! Commands in prereqs.sh remove Docker images) See [prereqs.sh](./prereqs.sh) to manage the below steps in one script
 
 ### Create custom Ubuntu Docker image needed by Act and a local registry to push it to
 
