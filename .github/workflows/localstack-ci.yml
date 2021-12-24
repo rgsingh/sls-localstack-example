@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.9']
-        DEPLOY_STAGE: ['dev']
+        DEPLOY_STAGE: ['local']
     steps:
       - name: Install Python 3
         uses: actions/setup-python@v2
@@ -25,7 +25,7 @@ jobs:
       - name: Install LocalStack
         run: |
           pip3 install localstack
-          docker pull localstack/localstack
+          docker pull localstack/localstack:latest
           localstack start -d
           echo "Waiting for LocalStack to startup..."
           localstack wait -t 30
@@ -42,10 +42,13 @@ jobs:
           DEFAULT_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          LOCALSTACK_HOSTNAME: localhost
           SLS_DEBUG: 1
         run: |
           serverless plugin install --name serverless-localstack
-          serverless deploy --stage=${{ matrix.DEPLOY_STAGE }} --verbose
+          serverless plugin install --name serverless-deployment-bucket
+          serverless plugin install --name serverless-iam-roles-per-function
+          serverless deploy --stage=${{ matrix.DEPLOY_STAGE }} --region us-east-1 --verbose
       # Execute Tests lambda
       - name: Run test for sample lambda
         run: |

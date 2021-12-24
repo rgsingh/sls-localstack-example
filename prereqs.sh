@@ -1,16 +1,16 @@
 #!/usr/bin/env zsh
 
 # Uncomment to stop containers
-#docker stop $(docker ps -a -q)
+docker stop $(docker ps -a -q)
 
 # Uncomment to remove containers
-#docker rm $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 
 # Uncomment to prune all images
-#docker image prune -a
+docker image prune -a
 
 # Uncomment to prune volumes
-#docker volume prune
+docker volume prune
 
 docker-compose up -d
 
