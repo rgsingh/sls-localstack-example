@@ -1,42 +1,37 @@
-service: serverless-localstack
+service: sls1
 
 frameworkVersion: '2'
 
 provider:
   name: aws
   runtime: python3.9
-  stage: ${opt:stage, 'dev'}
-  region: us-east-1
-  lambdaHashingVersion: 20201221
-  timeout: 30
-  memorySize: 256
+  stage: ${opt:stage, 'local'}
+  deploymentBucket:
+    name: serverless.${self:provider.region}.deploys
+    maxPreviousDeploymentArtifacts: 10
+    serverSideEncryption: AES256
 
 plugins:
   - serverless-localstack
-
+  - serverless-deployment-bucket
+  - serverless-iam-roles-per-function
 custom:
-  Resources:
-    S3BucketData:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: ${self:service}-data
   localstack:
     stages:
-      - dev
-    host: http://localhost
+      - local
+    host: http://${env:LOCALSTACK_HOST, 'localhost'}
+    edgePort: 4566
     endpoints:
       S3: http://localhost:4572
-      DynamoDB: http://localhost:4570
+      DynamoDB: http://localhost:4569
       CloudFormation: http://localhost:4581
-      Elasticsearch: http://localhost:4571
-      ES: http://localhost:4578
       SNS: http://localhost:4575
       SQS: http://localhost:4576
       Lambda: http://localhost:4574
       Kinesis: http://localhost:4568
     lambda:
       # Enable this flag to improve performance
-      mountCode: True
+      mountCode: true
 
 functions:
   greet:

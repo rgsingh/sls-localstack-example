@@ -1,5 +1,6 @@
 import json
-import os,sys
+import os
+import sys
 from zipfile import ZipFile
 
 import boto3
