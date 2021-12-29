@@ -26,7 +26,7 @@ jobs:
         run: |
           pip3 install localstack
           docker pull localstack/localstack:latest
-          localstack start -d
+          HOSTNAME=localstack localstack start -d 
           echo "Waiting for LocalStack to startup..."
           localstack wait -t 30
           echo "Startup complete"
@@ -42,7 +42,7 @@ jobs:
           DEFAULT_REGION: us-east-1
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          LOCALSTACK_HOSTNAME: localhost
+          LOCALSTACK_HOSTNAME: localstack
           SLS_DEBUG: 1
         run: |
           serverless plugin install --name serverless-localstack
